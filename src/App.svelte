@@ -1,138 +1,63 @@
 <script>
-	import { onMount } from 'svelte';
+	import ResultsTable from './components/ResultsTable.svelte';
+	import LiveUpdates from './components/LiveUpdates.svelte';
   
-	// Sample updates data
-	let updates = [
-		{ type: "winner", author: "Lee Davidson", time: "2 minutes ago", content: "Claudia Tenney (Republican) wins New York's 22nd Congressional District." },
-		{ author: "Lee Davidson", time: "4 minutes ago", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-		{ author: "Lee Davidson", time: "7 minutes ago", content: "Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat." },
+	const candidatesData = [
+	  {
+		name: 'Mark Robinson',
+		party: 'Republican',
+		partyColor: '#bf1d29',
+		votes: 574208,
+		percentage: 49.9,
+		imageUrl: 'mark-robinson-image.jpg'
+	  },
+	  {
+		name: 'Josh Stein',
+		party: 'Democrat',
+		partyColor: '#3c8aca',
+		votes: 576932,
+		percentage: 50.1,
+		imageUrl: 'josh-stein-image.jpg'
+	  }
 	];
+  </script>
   
-	let windowHeight;
-  
-	onMount(() => {
-		// Function to update the window height
-		const updateWindowHeight = () => windowHeight = window.innerHeight;
-		
-		// Initial call and event listener setup
-		updateWindowHeight();
-		window.addEventListener('resize', updateWindowHeight);
-  
-		// Cleanup function to remove event listener
-		return () => window.removeEventListener('resize', updateWindowHeight);
-	});
-</script>
-
-<!-- Live updates container -->
-<div class="live-updates-container">
-	<div class="live-updates" style="max-height: {windowHeight - 40}px">
-		<h2>Live updates</h2>
-		<div class="updates-scroll">
-			{#each updates as update}
-				<div class="update" class:winner={update.type === "winner"}>
-					{#if update.type === "winner"}
-						<div class="winner-label">WINNER</div>
-						<div class="winner-icon">›</div>
-					{/if}
-					<div class="update-header">
-						<span class="author">{update.author}</span>
-						<span class="time">{update.time}</span>
-					</div>
-					<p class="content">{update.content}</p>
-				</div>
-			{/each}
-		</div>
+  <div class="election-results-container">
+	<div class="main-content">
+	  <h1>Gubernatorial Election Results</h1>
+	  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+	  laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+	  ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+	  <ResultsTable candidates={candidatesData} />
+	  <!-- Add other components here -->
 	</div>
-</div>
-
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-	.live-updates-container {
-		position: fixed;
-		top: 20px;
-		right: 20px;
-		width: 300px;
-		z-index: 10;
-		font-family: 'Roboto', Arial, sans-serif;
-	}
+	<div class="sidebar">
+	  <LiveUpdates />
+	</div>
+  </div>
   
-	.live-updates {
-		background-color: #ffffff;
-		border: 1px solid #e2e2e2;
-		box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-		overflow-y: auto;
+  <style>
+	.election-results-container {
+	  display: flex;
+	  gap: 40px; /* Increased gap between main content and sidebar */
+	  max-width: 1200px; /* Adjust as needed */
+	  margin: 0 auto;
+	  padding: 0 20px; /* Add some horizontal padding */
 	}
-  
-	h2 {
-		font-size: 1.1rem;
-		font-weight: 700;
-		margin: 0;
-		color: #1a1a1a;
-		position: sticky;
-		top: 0;
-		background-color: #ffffff;
-		padding: 15px;
-		border-bottom: 1px solid #e2e2e2;
+	.main-content {
+	  flex: 1;
+	  padding-left: 20px; /* Add left padding to main content */
 	}
-  
-	.updates-scroll {
-		overflow-y: auto;
-		max-height: calc(100% - 60px);
+	.sidebar {
+	  width: 300px; /* Adjust as needed */
 	}
-  
-	.update {
-		padding: 15px;
-		border-bottom: 1px solid #e2e2e2;
-		position: relative;
+	h1 {
+	  font-size: 36px;
+	  margin-bottom: 20px;
 	}
-  
-	.update:last-child {
-		border-bottom: none;
+	p {
+	  font-size: 16px;
+	  line-height: 1.5;
+	  margin-bottom: 30px; /* Add more space before the results table */
 	}
-  
-	.update-header {
-		margin-bottom: 5px;
-	}
-  
-	.author {
-		font-weight: bold;
-		font-size: 0.9rem;
-		color: #1a1a1a;
-	}
-  
-	.time {
-		color: #666;
-		font-size: 0.8rem;
-		margin-left: 10px;
-	}
-  
-	.content {
-		margin: 0;
-		font-size: 0.9rem;
-		line-height: 1.4;
-		color: #333;
-	}
-  
-	.update.winner {
-		background-color: #f8f8f8;
-		border-left: 4px solid #d0021b;
-		padding-left: 11px;
-	}
-  
-	.winner-label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: #d0021b;
-		margin-bottom: 5px;
-	}
-  
-	.winner-icon {
-		position: absolute;
-		top: 15px;
-		right: 15px;
-		font-size: 1.2rem;
-		color: #d0021b;
-		font-weight: bold;
-	}
-</style>
+  </style>
